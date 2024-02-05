@@ -1,19 +1,32 @@
-const Layout = () => {
+import {Link, Outlet} from "react-router-dom";
 
-  return ()
+const Layout = () => {
+  return (
     <>
       <header>
-        <h1>My App</h1>
+        <h1>My app</h1>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+            <li>
+              <Link to="/upload">Upload</Link>
+            </li>
+          </ul>
+        </nav>
       </header>
       <main>
-        <p>Welcome to my app!</p>
+        <Outlet />
       </main>
       <footer>
-        <p>© 2021</p>
+        <p>Copyright 2024 - NN</p>
       </footer>
     </>
-  )
+  );
+};
 
-}
-
-export default Layout
+export default Layout;
