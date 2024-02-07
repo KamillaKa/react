@@ -1,24 +1,10 @@
-import {MediaItem} from '../types/DBTypes';
+import {MediaItem, MediaItemWithOwner, User} from '../types/DBTypes';
 import MediaRow from '../components/MediaRow';
-import { useEffect, useState } from 'react';
-import { fetchData } from '../lib/functions';
+import {useEffect, useState} from 'react';
+import {fetchData} from '../lib/functions';
 
 const Home = () => {
-  const [mediaArray, setMediaArray] = useState<MediaItem[]>([]);
-  //console.log(mediaArray);
 
-  const getMedia = async () => {
-    try {
-      const data = await fetchData<MediaItem[]>('data.json');
-      setMediaArray(data);
-    } catch (error) {
-      console.error('Error getMedia', error);
-  }
-}
-
-  useEffect(() => {
-    getMedia();
-  }, []);
 
   return (
     <>
@@ -32,6 +18,7 @@ const Home = () => {
             <th>Created</th>
             <th>Size</th>
             <th>Type</th>
+            <th>Owner</th>
           </tr>
         </thead>
         <tbody>
