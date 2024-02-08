@@ -16,7 +16,7 @@ const Single = () => {
         <img src={item.filename} alt={item.title} />
       )}
       <p>{item.description}</p>
-      <p>Uploaded at: {new Date(item.created_at).toLocaleString('fi-FI')} by: {item.username}</p>
+      <p>Uploaded at: {new Date(item.created_at).toLocaleString('fi-FI')}, by: {item.username} </p>
       <p>{item.filesize}</p>
       <p>{item.media_type}</p>
       <button

@@ -1,10 +1,10 @@
-import {MediaItem, MediaItemWithOwner, User} from '../types/DBTypes';
+import {MediaItemWithOwner} from '../types/DBTypes';
 import MediaRow from '../components/MediaRow';
-import {useEffect, useState} from 'react';
-import {fetchData} from '../lib/functions';
+import {useMedia} from '../hooks/apiHooks';
 
 const Home = () => {
 
+  const mediaArray: MediaItemWithOwner[] = useMedia();
 
   return (
     <>
