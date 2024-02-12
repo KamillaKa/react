@@ -2,7 +2,7 @@
 import React, {createContext, useState} from 'react';
 import {UserWithNoPassword} from '../types/DBTypes';
 import {useAuthentication, useUser} from '../hooks/apiHooks';
-import {useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {AuthContextType, Credentials} from '../types/LocalTypes';
 
 const UserContext = createContext<AuthContextType | null>(null);
@@ -12,24 +12,30 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
   const {postLogin} = useAuthentication();
   const {getUserByToken} = useUser();
   const navigate = useNavigate();
+  const location = useLocation();
 
   // login, logout and autologin functions are here instead of components
   const handleLogin = async (credentials: Credentials) => {
     try {
-      // TODO: post login credentials to API
-      // TODO: set token to local storage
-      // TODO: set user to state
-      // TODO: navigate to home
+      const loginResult = await postLogin(credentials);
+      if (loginResult) {
+        localStorage.setItem('token', loginResult.token);
+        setUser(loginResult.user);
+        navigate('/');
+      }
     } catch (e) {
-      console.log((e as Error).message);
+      alert((e as Error).message);
     }
   };
 
   const handleLogout = () => {
     try {
-      // TODO: remove token from local storage
-      // TODO: set user to null
-      // TODO: navigate to home
+      // remove token from local storage
+      localStorage.removeItem('token');
+      // set user to null
+      setUser(null);
+      // navigate to home
+      navigate('/');
     } catch (e) {
       console.log((e as Error).message);
     }
@@ -38,10 +44,17 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
   // handleAutoLogin is used when the app is loaded to check if there is a valid token in local storage
   const handleAutoLogin = async () => {
     try {
-      // TODO: get token from local storage
-      // TODO: if token exists, get user data from API
-      // TODO: set user to state
-      // TODO: navigate to home
+      // get token from local storage
+      const token = localStorage.getItem('token');
+      if (token) {
+        // if token exists, get user data from API
+        const userResponse = await getUserByToken(token);
+        // set user to state
+        setUser(userResponse.user);
+        // when page is refreshed, the user is redirected to origin (see ProtectedRoute.tsx)
+        const origin = location.state.from.pathname || '/';
+        navigate(origin);
+      }
     } catch (e) {
       console.log((e as Error).message);
     }
