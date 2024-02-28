@@ -32,7 +32,9 @@ const useMedia = () => {
           );
           const itemWithOwner: MediaItemWithOwner = {
             ...item,
-            username: owner.username,
+            owner: owner,
+            likes_count: 0,
+            comments_count: 0,
           };
           return itemWithOwner;
         }),
