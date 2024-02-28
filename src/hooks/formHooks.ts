@@ -1,7 +1,7 @@
 import {useState} from 'react';
 
-const useForm = (callback: () => void, initState: Record<string, string>) => {
-  const [inputs, setInputs] = useState(initState);
+const useForm = <T>(callback: () => void, initState: T) => {
+  const [inputs, setInputs] = useState<T>(initState);
 
   const handleSubmit = (event: React.SyntheticEvent) => {
     if (event) {
@@ -14,7 +14,6 @@ const useForm = (callback: () => void, initState: Record<string, string>) => {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     event.persist();
-    console.log(event.target.name, event.target.value);
     setInputs((inputs) => ({
       ...inputs,
       [event.target.name]: event.target.value,
